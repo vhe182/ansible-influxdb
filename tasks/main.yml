@@ -1,0 +1,45 @@
+---
+# tasks file for influxdb
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+
+- name: Install python.apt-apt
+  apt: name=python-apt
+
+
+- name: Add Influx-DB apt key to apt
+  apt_key: url={{ influx_db_url_key }}
+
+
+- name: source /etc/lsb-release
+  sudo: no
+  shell: source /etc/lsb-release
+  args:
+    executable: /bin/bash
+
+
+- name: Add apt repository source
+  sudo: no
+  apt_repository: repo='deb https://repos.influxdata.com/{{ distro_id }} {{ distro_codename }} stable' state=present filename=influxdb.list
+
+
+- name: Install Influx-DB 
+  apt: name=influxdb update_cache=yes
+  sudo: yes
+
+
+- name: Start Influx-DB
+  service: name=influxdb state=started
+
+
+- name: Change Influx-DB hostname from localhost to {{ ansible_hostname }}
+  replace: 
+    dest=/etc/opt/influxdb/influxdb.conf
+    regexp='hostname = "localhost"'
+    replace='hostname = "{{ ansible_hostname }} "'
+    backup = yes
+  notify: 
+    - restart influxdb
+...
