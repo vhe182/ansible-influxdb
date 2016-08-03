@@ -22,10 +22,11 @@
 
 - name: Add apt repository source
   sudo: no
-  apt_repository: repo='deb https://repos.influxdata.com/{{ distro_id }} {{ distro_codename }} stable' state=present filename=influxdb.list
+  apt_repository:
+    repo: 'deb https://repos.influxdata.com/{{ distro_id }} {{ distro_codename }} stable'
+    state: present
 
-
-- name: Install Influx-DB 
+- name: Install Influx-DB
   apt: name=influxdb update_cache=yes
   sudo: yes
 
@@ -35,11 +36,10 @@
 
 
 - name: Change Influx-DB hostname from localhost to {{ ansible_hostname }}
-  replace: 
+  replace:
     dest=/etc/opt/influxdb/influxdb.conf
     regexp='hostname = "localhost"'
     replace='hostname = "{{ ansible_hostname }} "'
     backup = yes
-  notify: 
+  notify:
     - restart influxdb
-...
