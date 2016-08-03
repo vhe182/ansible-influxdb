@@ -33,16 +33,3 @@
 
 - name: Start Influx-DB
   service: name=influxdb state=started
-
-<<<<<<< HEAD
-=======
-
-- name: Change Influx-DB hostname from localhost to {{ ansible_hostname }}
-  replace:
-    dest=/etc/opt/influxdb/influxdb.conf
-    regexp='hostname = "localhost"'
-    replace='hostname = "{{ ansible_hostname }} "'
-    backup = yes
-  notify:
-    - restart influxdb
->>>>>>> 4716289e0875dfc08e7c5770b3c48a2768cbbdbe
