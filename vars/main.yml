@@ -3,4 +3,3 @@
 influx_db_url_key: "https://repos.influxdata.com/influxdb.key"
 distro_id: "ubuntu"
 distro_codename: "trusty"
-ansible_hostname: "10.10.10.10"
