@@ -1,22 +1,31 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role installs InfluxDB and its dependencies.  To do so, it retrieves a key from the influxdb site and adds it to apt then pulls influxdb from the appropriate repo.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role will escalate to administrator priviledges (sudo) for many of the required executions.  Also, Influxdb uses TCP port 8083 for the Admin GUI and TCP port 8086 for client-server communication using InfluxDB's HTTP API.  This role leaves the ports to the default settings.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Variable names used in this role that can be changed as per the user's wishes are the following:
+
+The influx database key for pulling the latest build from influxdb repo.
+`influx_db_url_key`
+
+This role is configured to install InfluxDB on an Ubuntu OS.
+`distro_id: "ubuntu"`
+
+Currently, this role defaults to installing dependencies for Ubuntu 14.04, trust tahr
+distro_codename: "trusty"
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This role does not have any role dependencies to perform correctly.
 
 Example Playbook
 ----------------
@@ -25,7 +34,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: vhe182.influxdb }
 
 License
 -------
@@ -35,4 +44,5 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Author: Victor Estrada, Performance Team, Rackspace
+Date: August 2016
